@@ -175,10 +175,11 @@ def whatsApp(phone, message, flag, name):
 
 
 import google.generativeai as genai
+from backend.env import GEMINI_API_KEY
 
 def chat_with_bot(query):
     # Set your Gemini API key
-    genai.configure(api_key="AIzaSyC8zqrQ4db1OS92w7zFhW6wPPSoP7YeMtA")  # Replace with your actual API key
+    genai.configure(api_key=GEMINI_API_KEY)  # Replace with your actual API key
 
     # Personal details
     USER_NAME = "rajashekhar"
