@@ -1,3 +1,6 @@
 /envjarvis
 **/env.py
 samples/
+venv/
+__pycache__/
+*.pyc
