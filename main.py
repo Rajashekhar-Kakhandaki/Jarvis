@@ -19,8 +19,8 @@ def start():
             eel.hideFaceAuth()
             eel.hideFaceAuthSuccess()
             speak("welcome to your Assistant")
-            eel.hideStart()
             eel.showChat()
+            eel.hideStart()
             playAssistantSound()
         else:
             speak("Face not recognized. Please try again.") 

@@ -67,50 +67,50 @@ def youtube(query):
     kit.playonyt(search_term)
 
 
+
+
+import speech_recognition as sr
+
+HOTWORDS = ["jarvis", "alexa", "spark", "assistant"]
+
 def hotword():
-    porcupine=None
-    paud=None
-    audio_stream=None
-    try:
-       
-        # pre trained keywords    
-        porcupine=pvporcupine.create(keywords=["jarvis","alexa"]) 
-        paud=pyaudio.PyAudio()
-        audio_stream=paud.open(rate=porcupine.sample_rate,channels=1,format=pyaudio.paInt16,input=True,frames_per_buffer=porcupine.frame_length)
-        
-        # loop for streaming
+    r = sr.Recognizer()
+
+    with sr.Microphone() as source:
+        print("🎤 Listening for hotword... (Jarvis / Alexa)")
+
         while True:
-            keyword=audio_stream.read(porcupine.frame_length)
-            keyword=struct.unpack_from("h"*porcupine.frame_length,keyword)
+            try:
+                r.adjust_for_ambient_noise(source)
+                audio = r.listen(source)
 
-            # processing keyword comes from mic 
-            keyword_index=porcupine.process(keyword)
+                try:
+                    text = r.recognize_google(audio).lower()
+                    print("Heard:", text)
 
-            # checking first keyword detetcted for not
-            if keyword_index>=0:
-                print("hotword detected")
+                    # Check if any hotword exists in recognized speech
+                    for word in HOTWORDS:
+                        if word in text:
+                            print("🔥 Hotword Detected:", word)
 
-                # pressing shorcut key win+j
-                import pyautogui as autogui
-                autogui.keyDown("win")
-                autogui.press("j")
-                time.sleep(2)
-                autogui.keyUp("win")
-                
-    except:
-        if porcupine is not None:
-            porcupine.delete()
-        if audio_stream is not None:
-            audio_stream.close()
-        if paud is not None:
-            paud.terminate()
-    finally:
-        if audio_stream is not None:
-            audio_stream.close()
-        if paud is not None:
-            paud.terminate()
-        if porcupine is not None:
-            porcupine.delete()
+                            # Trigger your shortcut WIN + J
+                            pyautogui.keyDown("win")
+                            pyautogui.press("j")
+                            pyautogui.keyUp("win")
+
+                            print("⚡ Shortcut Triggered (WIN + J)")
+                            time.sleep(2)
+
+                except sr.UnknownValueError:
+                    pass
+                except sr.RequestError:
+                    print("⚠️ Internet Issue with Google Recognition")
+
+            except KeyboardInterrupt:
+                print("Stopped hotword detection.")
+                break
+
+
 
 
 def findContact(query):
@@ -228,5 +228,5 @@ def timeNow():
     minute = now.strftime("%M")
     period = now.strftime("%p")    # AM or PM
 
-    time_text = f"Sir, the time is {hour} o clock {minute} minutes {period}"
+    time_text = f"the time is {hour} o clock {minute} minutes {period}"
     return time_text

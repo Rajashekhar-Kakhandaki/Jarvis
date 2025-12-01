@@ -7,7 +7,7 @@ def speak(text):
     text = str(text)
 
     # Show immediately
-    eel.DisplayMessage(text)
+    
     eel.receiverText(text)
 
     engine = pyttsx3.init('sapi5')
@@ -16,8 +16,11 @@ def speak(text):
     engine.setProperty('rate', 170)
     
     # Speak after showing
+    # print(text)
+    eel.DisplayMessage(text)
     engine.say(text)
     engine.runAndWait()
+   
  # Display the assistant's response in the chat interface
 
 @eel.expose
@@ -38,7 +41,6 @@ def takeCommand():
         print(f"User said: {query}\n")
         eel.DisplayMessage(query)
         speak(query)
-        eel.ShowHood()
     except Exception as e:
         # print(e)
         print("Say that again please...")
@@ -90,7 +92,7 @@ def takeAllCommands(message=None):
             elif "time now" in query:
                 from backend.feature import timeNow
                 current_time = timeNow()
-                speak(f"The current time is {current_time}")
+                speak(current_time)
             else:
                 from backend.feature import chat_with_bot
                 response=chat_with_bot(query)
@@ -101,4 +103,5 @@ def takeAllCommands(message=None):
         print(f"An error occurred: {e}")
         speak("Sorry, something went wrong.")
     
-    eel.ShowHood()  # Call this from frontend after animation completes
+      # Call this from frontend after animation completes
+    eel.ShowHood()

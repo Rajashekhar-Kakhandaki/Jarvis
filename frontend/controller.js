@@ -3,8 +3,21 @@ $(document).ready(function () {
   eel.expose(DisplayMessage);
   function DisplayMessage(message) {
     $("#SiriWave").attr("hidden", false);
-    $(".siri-message").text(message);
-    $(".siri-message").textillate("start");
+    $(".siri-message").each(function () {
+      var $el = $(this);
+      // Stop any current animation
+      try { $el.textillate('stop'); } catch (e) { /* ignore if not initialized yet */ }
+
+      var $texts = $el.find('.texts');
+      if ($texts.length) {
+        $texts.html('<li>' + message + '</li>');
+      } else {
+        $el.html('<ul class="texts"><li>' + message + '</li></ul>');
+      }
+
+      // Start animation with the new text
+      try { $el.textillate('start'); } catch (e) { /* if textillate not loaded, fallback to simple text */ $el.text(message); }
+    });
   }
   eel.expose(ShowHood);
   function ShowHood() {
@@ -69,6 +82,6 @@ $(document).ready(function () {
     }, 1000);
     setTimeout(function () {
       $("#Oval").attr("hidden", false);
-    }, 1000);
+    }, 500);
   }
 });

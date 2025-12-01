@@ -12,37 +12,20 @@ $(document).ready(function () {
       effect: "bounceOut",
     },
   });
-  $(".siri-message").textillate({
+  
+    $(".siri-message").textillate({
     loop: true,
-    minDisplayTime: 2000, // keep message visible before animating out
-    autoStart: false, // start only when triggered
+    speed: 1500,
+    sync: true,
     in: {
-      effect: "fadeInUp",
-      sync: true,
+      effect: "bounceIn",
     },
     out: {
-      effect: "fadeOutUp",
-      sync: true,
+      effect: "bounceOut",
     },
   });
-  $('#ask-text').textillate({
-    loop: true,
-    minDisplayTime: 2000,
-    initialDelay: 0,
-    autoStart: true,
-    in: {
-      effect: 'fadeInUp',
-      delayScale: 1.5,
-      delay: 50,
-      sync: true
-    },
-    out: {
-      effect: 'fadeOutUp',
-      delayScale: 1.5,
-      delay: 50,
-      sync: true
-    }
-   });
+  
+
 
   // SiriWave animation
   var siriWave = new SiriWave({
